@@ -1,5 +1,5 @@
 from flask import current_app
-from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import Session,Query
 
 
 from app.models.entitis.graph_model import Graph
@@ -99,11 +99,31 @@ class Grafo:
         new_graph = Graph(qnt_noh=qnt_noh,qnt_connections=qnt_connections)
         session.add(new_graph)
         for connection in self.data:
-            new_path = Path(**connection)
+
+            old_path = Path.query.filter_by(**connection).first()  
+  
+            if old_path:
+                new_path = old_path
+            else :
+                new_path = Path(**connection)
+                session.add(new_path)
+
             new_graph_path = Graph_Path()
             new_graph_path.graphRef = new_graph
             new_graph_path.pathRef = new_path
-            session.add(new_path)
+            
             session.add(new_graph_path)
         session.commit()
         return new_graph
+    
+    @staticmethod
+    def get_connections_by_graphid(graph_id):
+        session:Session = current_app.db.session
+        query:Query = (session.query(Path.source,Path.target,Path.distance)
+        .select_from(Graph_Path)
+        .join(Path)
+        .filter(Graph_Path.graph_id == graph_id))
+
+        column_names = [column['name'] for column in query.column_descriptions]
+        serializer = [dict(zip(column_names,row)) for row in query.all()]
+        return serializer
