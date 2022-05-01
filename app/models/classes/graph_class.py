@@ -59,7 +59,7 @@ class Grafo:
         return (len(points),points)
         
 
-    def search_deep_all_path(self,start,finish):
+    def search_deep_all_path(self,start,finish,steps=0):
         connection = dict(self.connectionFormated)
         finish_paths = []
         current_paths = start
@@ -76,21 +76,25 @@ class Grafo:
                     finish_paths.append(current_paths+finish)
 
                 elif noh not in current_paths:
-                    path_list.append(current_paths+noh)
-                    stack.append(noh)
+                    new_path = current_paths+noh
+                    if steps==0 or len(new_path)<=steps:
+                        path_list.append(new_path)
+                        stack.append(noh)
  
         return finish_paths
 
     def calculate_route(self,routes):
-        path_calculated = {}
+        result = []
         for path in routes:
+            path_calculated={}
             value = 0
             for index,noh in enumerate(path[1:]):
                 index_start = self.noh.index(path[index])
                 index_finish = self.noh.index(noh)
                 value+=self.graph[index_start][index_finish]
             path_calculated[path]=value
-        return path_calculated
+            result.append(path_calculated)
+        return result
         
     def save_in_db(self):
         session:Session = current_app.db.session
