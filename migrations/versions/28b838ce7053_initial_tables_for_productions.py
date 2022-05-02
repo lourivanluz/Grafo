@@ -1,8 +1,8 @@
-"""initial tables
+"""initial tables for productions
 
-Revision ID: 0afa2f3d23de
+Revision ID: 28b838ce7053
 Revises: 
-Create Date: 2022-04-30 18:25:26.767363
+Create Date: 2022-05-01 21:37:21.724673
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0afa2f3d23de'
+revision = '28b838ce7053'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,8 +33,8 @@ def upgrade():
     )
     op.create_table('graph_path',
     sa.Column('graph_path_id', sa.String(), nullable=False),
-    sa.Column('graph_id', sa.String(), nullable=False),
-    sa.Column('path_id', sa.String(), nullable=False),
+    sa.Column('graph_id', sa.String(), nullable=True),
+    sa.Column('path_id', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['graph_id'], ['graph.graph_id'], ),
     sa.ForeignKeyConstraint(['path_id'], ['path.path_id'], ),
     sa.PrimaryKeyConstraint('graph_path_id')
