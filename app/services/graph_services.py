@@ -7,6 +7,6 @@ def handle_data_graph(**data):
         saved_graph = graph.save_in_db()
         serializer = Grafo.get_connections_by_graphid(graph_id=saved_graph.graph_id)
 
-        return {'id':saved_graph.graph_id,'data':serializer}
+        return ({'id':saved_graph.graph_id,'data':serializer},201)
 
-    return {'msg':'nao salvo'}
+    return ({'error':'Graph not created'},500)
