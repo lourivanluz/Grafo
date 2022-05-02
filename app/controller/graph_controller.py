@@ -12,7 +12,7 @@ def create_graph():
     validate = verification_graphSechma(data)
     if validate == 'valid filds':
         result = handle_data_graph(**data)
-        return jsonify(result),HTTPStatus.CREATED
+        return jsonify(result[0]),result[1]
     return {'error':validate},HTTPStatus.BAD_REQUEST
 
 def retriver_graph(graphId):
