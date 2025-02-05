@@ -17,7 +17,7 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 # Endpoints base
 
-[https://graph-test-tecnico.herokuapp.com/](https://graph-test-tecnico.herokuapp.com/)
+[https://web-production-7c188.up.railway.app/](https://web-production-7c188.up.railway.app/)
 
 # Como usar os Endpoints
 
